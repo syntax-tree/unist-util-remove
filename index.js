@@ -1,10 +1,13 @@
 'use strict';
 
 
-module.exports = function (ast, nodes) {
+module.exports = function (ast, nodes, opts) {
   if (!Array.isArray(nodes)) {
     nodes = [nodes];
   }
+
+  opts = opts || {};
+  opts.cascade = opts.cascade || opts.cascade == null;
 
   // Check and remove nodes recursively in preorder.
   // For each composite node, modify its children array in-place.
@@ -28,7 +31,7 @@ module.exports = function (ast, nodes) {
       }
     }
 
-    if (!length) {
+    if (!length && opts.cascade) {
       // Cascade delete.
       return null;
     }
