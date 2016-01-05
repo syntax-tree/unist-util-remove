@@ -1,0 +1,33 @@
+{
+  "name": "unist-util-remove",
+  "version": "0.0.0",
+  "description": "Remove nodes from Unist tree",
+  "author": "Eugene Sharygin <eush77@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "homepage": "https://github.com/eush77/unist-util-remove",
+  "repository": "eush77/unist-util-remove",
+  "bugs": {
+    "url": "https://github.com/eush77/unist-util-remove/issues"
+  },
+  "keywords": [
+    "ast",
+    "cascade",
+    "delete",
+    "mutable",
+    "node",
+    "remove",
+    "squeeze",
+    "strip",
+    "tree",
+    "unist",
+    "util"
+  ],
+  "dependencies": {},
+  "devDependencies": {}
+}
