@@ -11,12 +11,14 @@ it('should compare nodes by identity', function (t) {
     u('node', 'value'),
     u('node', 'value')
   ]);
+  var children = ast.children;
   var firstChild = ast.children[0];
 
   var newAst = remove(ast, ast.children[1]);
 
   t.equal(newAst, ast);
   t.deepEqual(ast, u('node', [firstChild]));
+  t.equal(ast.children, children);
   t.equal(ast.children[0], firstChild);
   t.end();
 });
@@ -29,12 +31,14 @@ it('should remove nodes with children', function (t) {
     ]),
     u('leaf', 2)
   ]);
+  var children = ast.children;
   var secondLeaf = ast.children[1];
 
   var newAst = remove(ast, ast.children[0]);
 
   t.equal(newAst, ast);
   t.deepEqual(ast, u('root', [secondLeaf]));
+  t.equal(ast.children, children);
   t.equal(ast.children[0], secondLeaf);
   t.end();
 });
@@ -60,6 +64,7 @@ it('should accept array of nodes', function (t) {
     u('leaf', 3),
     u('leaf', 4)
   ]);
+  var children = ast.children;
   var secondLeaf = ast.children[1];
 
   var newAst = remove(ast, [
@@ -70,6 +75,7 @@ it('should accept array of nodes', function (t) {
 
   t.equal(newAst, ast);
   t.deepEqual(ast, u('root', [secondLeaf]));
+  t.equal(ast.children, children);
   t.equal(ast.children[0], secondLeaf);
   t.end();
 });
@@ -83,12 +89,14 @@ it('should cascade remove parent nodes', function (t) {
       ]),
       u('leaf', 2)
     ]);
+    var children = ast.children;
     var secondLeaf = ast.children[1];
 
     var newAst = remove(ast, ast.children[0].children[0]);
 
     t.equal(newAst, ast);
     t.deepEqual(ast, u('root', [secondLeaf]));
+    t.equal(ast.children, children);
     t.equal(ast.children[0], secondLeaf);
     t.end();
   });
