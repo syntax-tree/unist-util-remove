@@ -1,0 +1,112 @@
+'use strict';
+
+var remove = require('..');
+
+var it = require('tape'),
+    u = require('unist-builder');
+
+
+it('should compare nodes by identity', function (t) {
+  var ast = u('node', [
+    u('node', 'value'),
+    u('node', 'value')
+  ]);
+  var firstChild = ast.children[0];
+
+  var newAst = remove(ast, ast.children[1]);
+
+  t.equal(newAst, ast);
+  t.deepEqual(ast, u('node', [firstChild]));
+  t.equal(ast.children[0], firstChild);
+  t.end();
+});
+
+
+it('should remove nodes with children', function (t) {
+  var ast = u('root', [
+    u('node', [
+      u('leaf', 1)
+    ]),
+    u('leaf', 2)
+  ]);
+  var secondLeaf = ast.children[1];
+
+  var newAst = remove(ast, ast.children[0]);
+
+  t.equal(newAst, ast);
+  t.deepEqual(ast, u('root', [secondLeaf]));
+  t.equal(ast.children[0], secondLeaf);
+  t.end();
+});
+
+
+it('should return `null` if root node is removed', function (t) {
+  var ast = u('root', [
+    u('node', [
+      u('leaf', 1)
+    ]),
+    u('leaf', 2)
+  ]);
+
+  t.equal(remove(ast, ast), null);
+  t.end();
+});
+
+
+it('should accept array of nodes', function (t) {
+  var ast = u('root', [
+    u('leaf', 1),
+    u('leaf', 2),
+    u('leaf', 3),
+    u('leaf', 4)
+  ]);
+  var secondLeaf = ast.children[1];
+
+  var newAst = remove(ast, [
+    ast.children[0],
+    ast.children[2],
+    ast.children[3]
+  ]);
+
+  t.equal(newAst, ast);
+  t.deepEqual(ast, u('root', [secondLeaf]));
+  t.equal(ast.children[0], secondLeaf);
+  t.end();
+});
+
+
+it('should cascade remove parent nodes', function (t) {
+  t.test(function (t) {
+    var ast = u('root', [
+      u('node', [
+        u('leaf', 1)
+      ]),
+      u('leaf', 2)
+    ]);
+    var secondLeaf = ast.children[1];
+
+    var newAst = remove(ast, ast.children[0].children[0]);
+
+    t.equal(newAst, ast);
+    t.deepEqual(ast, u('root', [secondLeaf]));
+    t.equal(ast.children[0], secondLeaf);
+    t.end();
+  });
+
+  t.test(function (t) {
+    var ast = u('root', [
+      u('node', [
+        u('leaf', 1)
+      ]),
+      u('leaf', 2)
+    ]);
+
+    var newAst = remove(ast, [
+      ast.children[0].children[0],
+      ast.children[1]
+    ]);
+
+    t.equal(newAst, null);
+    t.end();
+  });
+});
