@@ -29,5 +29,8 @@
     "util"
   ],
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "tape": "^4.4.0",
+    "unist-builder": "^1.0.0"
+  }
 }
