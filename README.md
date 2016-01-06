@@ -4,7 +4,9 @@
 
 [![Build Status][travis-badge]][travis] [![Dependency Status][david-badge]][david]
 
-Remove one or more nodes from Unist tree, mutating it.
+Remove one or more nodes from [Unist] tree, mutating it.
+
+[unist]: https://github.com/wooorm/unist
 
 [travis]: https://travis-ci.org/eush77/unist-util-remove
 [travis-badge]: https://travis-ci.org/eush77/unist-util-remove.svg?branch=master
@@ -77,10 +79,10 @@ remove(ast, ast)
 
 ### `remove(ast, nodes, [opts])`
 
-- `ast` — Unist tree.
-- `nodes` — Unist node or array of nodes.
+- `ast` — [Unist] tree.
+- `nodes` — [Unist] node or array of nodes.
 
-Removes `nodes` from `ast`. Returns a modified Unist tree.
+Removes `nodes` from `ast`. Returns a modified [Unist] tree.
 
 ##### `opts.cascade`
 
