@@ -7,7 +7,7 @@ module.exports = function (ast, nodes, opts) {
   }
 
   opts = opts || {};
-  opts.cascade = opts.cascade || opts.cascade == null;
+  opts.cascade = opts.cascade || opts.cascade === undefined;
 
   // Check and remove nodes recursively in preorder.
   // For each composite node, modify its children array in-place.
