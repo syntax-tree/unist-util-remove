@@ -118,3 +118,60 @@ it('should cascade remove parent nodes', function (t) {
     t.end();
   });
 });
+
+
+it('should support type tests and predicate functions', function (t) {
+  t.test(function (t) {
+    var ast = u('node', [
+      u('node', [
+        u('leaf', 1)
+      ]),
+      u('leaf', 2)
+    ]);
+
+    ast = remove(ast, { cascade: false }, 'leaf');
+
+    t.deepEqual(ast, u('node', [
+      u('node', [])
+    ]));
+    t.end();
+  });
+
+  t.test(function (t) {
+    var ast = u('node', [
+      u('node', [
+        u('leaf', 1)
+      ]),
+      u('leaf', 2)
+    ]);
+
+    ast = remove(ast, { cascade: false }, function (node) {
+      return node.value == 1;
+    });
+
+    t.deepEqual(ast, u('node', [
+      u('node', []),
+      u('leaf', 2)
+    ]));
+    t.end();
+  });
+
+  t.test(function (t) {
+    var ast = u('node', [
+      u('node', [
+        u('leaf', 1)
+      ]),
+      u('leaf', 2)
+    ]);
+
+    ast = remove(ast, { cascade: false }, function (node, index, parent) {
+      return index == 0 && parent.children.length == 1;
+    });
+
+    t.deepEqual(ast, u('node', [
+      u('node', []),
+      u('leaf', 2)
+    ]));
+    t.end();
+  });
+});

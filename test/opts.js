@@ -15,12 +15,10 @@ test('opts.cascade', function (t) {
       u('leaf', 2)
     ]);
 
-    var newAst = remove(ast, [
+    var newAst = remove(ast, { cascade: true }, [
       ast.children[0].children[0],
       ast.children[1]
-    ], {
-      cascade: true
-    });
+    ]);
 
     t.equal(newAst, null);
     t.end();
@@ -37,12 +35,10 @@ test('opts.cascade', function (t) {
     var innerNode = ast.children[0];
     var grandChildren = ast.children[0].children;
 
-    var newAst = remove(ast, [
+    var newAst = remove(ast, { cascade: false }, [
       ast.children[0].children[0],
       ast.children[1]
-    ], {
-      cascade: false
-    });
+    ]);
 
     t.equal(newAst, ast);
     t.deepEqual(ast, u('root', [

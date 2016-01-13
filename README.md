@@ -77,12 +77,15 @@ remove(ast, ast)
 
 ## API
 
-### `remove(ast, nodes, [opts])`
+### `remove(ast, [opts], predicate)`
 
 - `ast` — [Unist] tree.
-- `nodes` — [Unist] node or array of nodes.
+- `predicate` — one of:
+    - [Unist] node or array of nodes,
+    - node type (string),
+    - function invoked with arguments `(node, index?, parent?)`.
 
-Removes `nodes` from `ast`. Returns a modified [Unist] tree.
+Iterates over `ast` in preorder traversal and removes all nodes matching `predicate` from `ast`. Returns a modified [Unist] tree.
 
 ##### `opts.cascade`
 
