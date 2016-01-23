@@ -120,6 +120,23 @@ it('should cascade remove parent nodes', function (t) {
 });
 
 
+it('should not cascade-remove nodes that were empty initially', function (t) {
+  var ast = u('node', [
+    u('node', []),
+    u('node', [
+      u('leaf')
+    ])
+  ]);
+
+  ast = remove(ast, 'leaf');
+
+  t.deepEqual(ast, u('node', [
+    u('node', [])
+  ]));
+  t.end();
+});
+
+
 it('should support type tests and predicate functions', function (t) {
   t.test(function (t) {
     var ast = u('node', [

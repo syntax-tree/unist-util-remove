@@ -20,7 +20,7 @@ module.exports = function (ast, opts, predicate) {
     if (is(predicate, node, nodeIndex, parent)) {
       return null;
     }
-    if (!node.children) {
+    if (!node.children || !node.children.length) {
       return node;
     }
 
