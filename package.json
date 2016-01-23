@@ -1,6 +1,6 @@
 {
   "name": "unist-util-remove",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Remove nodes from Unist tree",
   "author": "Eugene Sharygin <eush77@gmail.com>",
   "license": "MIT",
