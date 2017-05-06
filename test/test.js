@@ -6,15 +6,15 @@ var it = require('tape'),
     u = require('unist-builder');
 
 
-it('should compare nodes by identity', function (t) {
+it('should compare nodes by partial properties', function (t) {
   var ast = u('node', [
-    u('node', 'value'),
-    u('node', 'value')
+    u('node', 'foo'),
+    u('node', 'bar')
   ]);
   var children = ast.children;
   var firstChild = ast.children[0];
 
-  var newAst = remove(ast, ast.children[1]);
+  var newAst = remove(ast, {value: 'bar'});
 
   t.equal(newAst, ast);
   t.deepEqual(ast, u('node', [firstChild]));
@@ -34,7 +34,9 @@ it('should remove nodes with children', function (t) {
   var children = ast.children;
   var secondLeaf = ast.children[1];
 
-  var newAst = remove(ast, ast.children[0]);
+  var newAst = remove(ast, function (node) {
+    return node === ast.children[0];
+  });
 
   t.equal(newAst, ast);
   t.deepEqual(ast, u('root', [secondLeaf]));
