@@ -7,6 +7,7 @@
 Remove one or more nodes from [Unist] tree, mutating it.
 
 [unist]: https://github.com/wooorm/unist
+[is]: https://github.com/syntax-tree/unist-util-is#api
 
 [travis]: https://travis-ci.org/eush77/unist-util-remove
 [travis-badge]: https://travis-ci.org/eush77/unist-util-remove.svg?branch=master
@@ -80,10 +81,7 @@ remove(ast, ast)
 ### `remove(ast, [opts], predicate)`
 
 - `ast` — [Unist] tree.
-- `predicate` — one of:
-    - [Unist] node or array of nodes,
-    - node type (string),
-    - function invoked with arguments `(node, index?, parent?)`.
+- `predicate` — any `test` as given to [`unist-util-is`][is].
 
 Iterates over `ast` in preorder traversal and removes all nodes matching `predicate` from `ast`. Returns a modified [Unist] tree.
 

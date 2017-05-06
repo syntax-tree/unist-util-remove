@@ -5,7 +5,8 @@
   "author": "Eugene Sharygin <eush77@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "tape test/*.js",
+    "cov": "nyc --reporter lcov tape test/*.js"
   },
   "files": [
     "index.js"

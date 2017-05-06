@@ -9,9 +9,6 @@ module.exports = function (ast, opts, predicate) {
     opts = {};
   }
 
-  if (Array.isArray(predicate)) {
-    predicate = arrayPredicate(predicate);
-  }
   opts.cascade = opts.cascade || opts.cascade === undefined;
 
   // Check and remove nodes recursively in preorder.
@@ -45,10 +42,3 @@ module.exports = function (ast, opts, predicate) {
     return node;
   }(ast, null, null));
 };
-
-
-function arrayPredicate (nodes) {
-  return function (node) {
-    return nodes.indexOf(node) >= 0;
-  };
-}

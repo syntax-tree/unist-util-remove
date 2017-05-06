@@ -59,30 +59,6 @@ it('should return `null` if root node is removed', function (t) {
 });
 
 
-it('should accept array of nodes', function (t) {
-  var ast = u('root', [
-    u('leaf', 1),
-    u('leaf', 2),
-    u('leaf', 3),
-    u('leaf', 4)
-  ]);
-  var children = ast.children;
-  var secondLeaf = ast.children[1];
-
-  var newAst = remove(ast, [
-    ast.children[0],
-    ast.children[2],
-    ast.children[3]
-  ]);
-
-  t.equal(newAst, ast);
-  t.deepEqual(ast, u('root', [secondLeaf]));
-  t.equal(ast.children, children);
-  t.equal(ast.children[0], secondLeaf);
-  t.end();
-});
-
-
 it('should cascade remove parent nodes', function (t) {
   t.test(function (t) {
     var ast = u('root', [
@@ -111,10 +87,9 @@ it('should cascade remove parent nodes', function (t) {
       u('leaf', 2)
     ]);
 
-    var newAst = remove(ast, [
-      ast.children[0].children[0],
-      ast.children[1]
-    ]);
+    var newAst = remove(ast, function (node) {
+      return node === ast.children[0].children[0] || node === ast.children[1];
+    });
 
     t.equal(newAst, null);
     t.end();
