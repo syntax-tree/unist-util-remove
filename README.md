@@ -61,6 +61,10 @@ remove(ast, ast)
 
 Iterates over `ast` in preorder traversal and removes all nodes matching `predicate` from `ast`. Returns a modified [Unist] tree.
 
+> Note: `unist-util-is` used to remove a node when given as `test`.
+> This no longer works. To migrate, pass a function as a predicate, like so:
+> `remove(ast, function (node) { return node === predicate; })`.
+
 ##### `opts.cascade`
 
 Type: `Boolean`<br>
