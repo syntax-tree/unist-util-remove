@@ -12,15 +12,26 @@ test('example from README', function (t) {
     u('node', [
       u('leaf', 2),
       u('node', [
-        u('leaf', 3)
+        u('leaf', 3),
+        u('other', 4)
+      ]),
+      u('node', [
+        u('leaf', 5),
       ])
     ]),
-    u('leaf', 4)
+    u('leaf', 6)
   ]);
-  var one = ast.children[0];
-  var four = ast.children[2];
 
-  t.equal(remove(ast, ast), null);
+  t.deepEqual(
+    remove(ast, 'leaf'),
+    u('root', [
+      u('node', [
+        u('node', [
+          u('other', 4)
+        ])
+      ])
+    ])
+  );
 
   t.end();
 });

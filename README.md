@@ -17,56 +17,32 @@ Remove one or more nodes from [Unist] tree, mutating it.
 ## Example
 
 ```js
+var u = require('unist-builder');
 var remove = require('unist-util-remove');
+var inspect = require('unist-util-inspect');
 
-ast
-//=> {
-//     "type": "root",
-//     "children": [
-//       {
-//         "type": "leaf",
-//         "value": "1"
-//       },
-//       {
-//         "type": "node",
-//         "children": [
-//           {
-//             "type": "leaf",
-//             "value": "2"
-//           },
-//           {
-//             "type": "node",
-//             "children": [
-//               {
-//                 "type": "leaf",
-//                 "value": "3"
-//               }
-//             ]
-//           }
-//         ]
-//       },
-//       {
-//         "type": "leaf",
-//         "value": "4"
-//       }
-//     ]
-//   }
+var ast = u('root', [
+  u('leaf', 1),
+  u('node', [
+    u('leaf', 2),
+    u('node', [
+      u('leaf', 3),
+      u('other', 4)
+    ]),
+    // this node will be removed as well because of `opts.cascade`.
+    u('node', [
+      u('leaf', 5),
+    ])
+  ]),
+  u('leaf', 6)
+]);
 
-// Remove node 2 and its sibling.
-remove(ast, [ast.children[1].children[0], ast.children[1].children[1]])
-//=> {
-//     "type": "root",
-//     "children": [
-//       {
-//         "type": "leaf",
-//         "value": "1"
-//       },
-//       {
-//         "type": "leaf",
-//         "value": "4"
-//       }
-//     ]
-//   }
+// Remove all nodes of type `leaf`.
+remove(ast, 'leaf')
+//=> root[1]
+//   └─ node[1]
+//      └─ node[1]
+//         └─ other: "4"
 ```
 
 If the root node gets removed, the entire tree is destroyed and `remove` returns `null`. That's the only case in which `remove` doesn't return the original root node.
