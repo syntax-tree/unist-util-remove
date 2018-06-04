@@ -11,39 +11,48 @@ npm install unist-util-remove
 ## Usage
 
 ```js
-var u = require('unist-builder');
-var remove = require('unist-util-remove');
-var inspect = require('unist-util-inspect');
+var u = require('unist-builder')
+var remove = require('.')
 
-var ast = u('root', [
-  u('leaf', 1),
+var tree = u('root', [
+  u('leaf', '1'),
   u('node', [
-    u('leaf', 2),
-    u('node', [
-      u('leaf', 3),
-      u('other', 4)
-    ]),
-    // this node will be removed as well because of `opts.cascade`.
-    u('node', [
-      u('leaf', 5),
-    ])
+    u('leaf', '2'),
+    u('node', [u('leaf', '3'), u('other', '4')]),
+    u('node', [u('leaf', '5')])
   ]),
-  u('leaf', 6)
-]);
+  u('leaf', '6')
+])
 
 // Remove all nodes of type `leaf`.
-remove(ast, 'leaf')
-//=> root[1]
-//   └─ node[1]
-//      └─ node[1]
-//         └─ other: "4"
+remove(tree, 'leaf')
+
+console.log(tree)
+```
+
+Yields: (note the parent of `5` is also removed, due to `opts.cascade`)
+
+```js
+{
+  type: 'root',
+  children: [{
+    type: 'node',
+    children: [{
+      type: 'node',
+      children: [{
+        type: 'other',
+        value: '4'
+      }]
+    }]
+  }]
+}
 ```
 
 ## API
 
 ### `remove(tree, [opts], test)`
 
-Mutate `tree` to remove all nodes that pass `test`.
+Mutate `tree` by removing all nodes that pass `test`.
 The tree is filtered in [preorder][].
 
 ###### Parameters
