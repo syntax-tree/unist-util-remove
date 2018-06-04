@@ -12,7 +12,7 @@ npm install unist-util-remove
 
 ```js
 var u = require('unist-builder')
-var remove = require('.')
+var remove = require('unist-util-remove')
 
 var tree = u('root', [
   u('leaf', '1'),
