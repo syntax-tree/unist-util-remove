@@ -1,244 +1,158 @@
-'use strict';
+'use strict'
 
-var remove = require('..');
+var test = require('tape')
+var u = require('unist-builder')
+var remove = require('.')
 
-var test = require('tape'),
-    u = require('unist-builder');
+test('should compare nodes by partial properties', function(t) {
+  var tree = u('node', [u('leaf', '1'), u('leaf', '2')])
+  var children = tree.children
+  var first = tree.children[0]
 
+  var next = remove(tree, {value: '2'})
 
-test('should compare nodes by partial properties', function (t) {
-  var ast = u('node', [
-    u('node', 'foo'),
-    u('node', 'bar')
-  ]);
-  var children = ast.children;
-  var firstChild = ast.children[0];
+  t.equal(next, tree)
+  t.deepEqual(tree, u('node', [first]))
+  t.equal(tree.children, children)
+  t.equal(tree.children[0], first)
 
-  var newAst = remove(ast, {value: 'bar'});
+  t.end()
+})
 
-  t.equal(newAst, ast);
-  t.deepEqual(ast, u('node', [firstChild]));
-  t.equal(ast.children, children);
-  t.equal(ast.children[0], firstChild);
-  t.end();
-});
+test('should remove nodes with children', function(t) {
+  var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
+  var children = tree.children
+  var first = tree.children[0]
+  var last = tree.children[1]
 
+  var next = remove(tree, test)
 
-test('should remove nodes with children', function (t) {
-  var ast = u('root', [
+  t.equal(next, tree)
+  t.deepEqual(tree, u('root', [last]))
+  t.equal(tree.children, children)
+  t.equal(tree.children[0], last)
+
+  t.end()
+
+  function test(node) {
+    return node === first
+  }
+})
+
+test('should return `null` if root node is removed', function(t) {
+  var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
+
+  t.equal(remove(tree, 'root'), null)
+
+  t.end()
+})
+
+test('should cascade-remove parent nodes', function(t) {
+  var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
+  var children = tree.children
+  var first = children[0].children[0]
+  var last = children[1]
+
+  var next = remove(tree, test)
+
+  t.equal(next, tree)
+  t.deepEqual(tree, u('root', [last]))
+  t.equal(tree.children, children)
+  t.equal(tree.children[0], last)
+
+  t.end()
+
+  function test(node) {
+    return node === first
+  }
+})
+
+test('should cascade-remove root nodes', function(t) {
+  var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
+
+  var next = remove(tree, 'leaf')
+
+  t.equal(next, null)
+
+  t.end()
+})
+
+test('should not cascade-remove nodes that were empty initially', function(t) {
+  var tree = u('node', [u('node', []), u('node', [u('leaf')])])
+
+  remove(tree, 'leaf')
+
+  t.deepEqual(tree, u('node', [u('node', [])]))
+
+  t.end()
+})
+
+test('should support type tests', function(t) {
+  var tree = u('node', [u('node', [u('leaf', '1')]), u('leaf', '2')])
+
+  remove(tree, {cascade: false}, 'leaf')
+
+  t.deepEqual(tree, u('node', [u('node', [])]))
+
+  t.end()
+})
+
+test('should support function tests', function(t) {
+  var tree = u('node', [u('node', [u('leaf', '1')]), u('leaf', '2')])
+
+  remove(tree, {cascade: false}, test)
+
+  t.deepEqual(tree, u('node', [u('node', []), u('leaf', '2')]))
+
+  t.end()
+
+  function test(node) {
+    return node.value === '1'
+  }
+})
+
+test('opts.cascade = true', function(t) {
+  var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
+
+  var next = remove(tree, {cascade: true}, 'leaf')
+
+  t.equal(next, null)
+
+  t.end()
+})
+
+test('opts.cascade = false', function(t) {
+  var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
+  var siblings = tree.children
+  var node = siblings[0]
+  var children = node.children
+
+  var next = remove(tree, {cascade: false}, 'leaf')
+
+  t.equal(next, tree)
+  t.deepEqual(tree, u('root', [u('node', [])]))
+  t.equal(tree.children, siblings)
+  t.equal(tree.children[0], node)
+  t.equal(tree.children[0].children, children)
+
+  t.end()
+})
+
+test('example from readme', function(t) {
+  var tree = u('root', [
+    u('leaf', '1'),
     u('node', [
-      u('leaf', 1)
+      u('leaf', '2'),
+      u('node', [u('leaf', '3'), u('other', '4')]),
+      u('node', [u('leaf', '5')])
     ]),
-    u('leaf', 2)
-  ]);
-  var children = ast.children;
-  var secondLeaf = ast.children[1];
-
-  var newAst = remove(ast, function (node) {
-    return node === ast.children[0];
-  });
-
-  t.equal(newAst, ast);
-  t.deepEqual(ast, u('root', [secondLeaf]));
-  t.equal(ast.children, children);
-  t.equal(ast.children[0], secondLeaf);
-  t.end();
-});
-
-
-test('should return `null` if root node is removed', function (t) {
-  var ast = u('root', [
-    u('node', [
-      u('leaf', 1)
-    ]),
-    u('leaf', 2)
-  ]);
-
-  t.equal(remove(ast, ast), null);
-  t.end();
-});
-
-
-test('should cascade remove parent nodes', function (t) {
-  t.test(function (t) {
-    var ast = u('root', [
-      u('node', [
-        u('leaf', 1)
-      ]),
-      u('leaf', 2)
-    ]);
-    var children = ast.children;
-    var secondLeaf = ast.children[1];
-
-    var newAst = remove(ast, ast.children[0].children[0]);
-
-    t.equal(newAst, ast);
-    t.deepEqual(ast, u('root', [secondLeaf]));
-    t.equal(ast.children, children);
-    t.equal(ast.children[0], secondLeaf);
-    t.end();
-  });
-
-  t.test(function (t) {
-    var ast = u('root', [
-      u('node', [
-        u('leaf', 1)
-      ]),
-      u('leaf', 2)
-    ]);
-
-    var newAst = remove(ast, function (node) {
-      return node === ast.children[0].children[0] || node === ast.children[1];
-    });
-
-    t.equal(newAst, null);
-    t.end();
-  });
-});
-
-
-test('should not cascade-remove nodes that were empty initially', function (t) {
-  var ast = u('node', [
-    u('node', []),
-    u('node', [
-      u('leaf')
-    ])
-  ]);
-
-  ast = remove(ast, 'leaf');
-
-  t.deepEqual(ast, u('node', [
-    u('node', [])
-  ]));
-  t.end();
-});
-
-
-test('should support type tests and predicate functions', function (t) {
-  t.test(function (t) {
-    var ast = u('node', [
-      u('node', [
-        u('leaf', 1)
-      ]),
-      u('leaf', 2)
-    ]);
-
-    ast = remove(ast, { cascade: false }, 'leaf');
-
-    t.deepEqual(ast, u('node', [
-      u('node', [])
-    ]));
-    t.end();
-  });
-
-  t.test(function (t) {
-    var ast = u('node', [
-      u('node', [
-        u('leaf', 1)
-      ]),
-      u('leaf', 2)
-    ]);
-
-    ast = remove(ast, { cascade: false }, function (node) {
-      return node.value == 1;
-    });
-
-    t.deepEqual(ast, u('node', [
-      u('node', []),
-      u('leaf', 2)
-    ]));
-    t.end();
-  });
-
-  t.test(function (t) {
-    var ast = u('node', [
-      u('node', [
-        u('leaf', 1)
-      ]),
-      u('leaf', 2)
-    ]);
-
-    ast = remove(ast, { cascade: false }, function (node, index, parent) {
-      return index == 0 && parent.children.length == 1;
-    });
-
-    t.deepEqual(ast, u('node', [
-      u('node', []),
-      u('leaf', 2)
-    ]));
-    t.end();
-  });
-});
-
-test('opts.cascade', function (t) {
-  t.test('opts.cascade = true', function (t) {
-    var ast = u('root', [
-      u('node', [
-        u('leaf', 1)
-      ]),
-      u('leaf', 2)
-    ]);
-
-    var newAst = remove(ast, { cascade: true }, function (node) {
-      return node === ast.children[0].children[0] || node === ast.children[1];
-    });
-
-    t.equal(newAst, null);
-    t.end();
-  });
-
-  t.test('opts.cascade = false', function (t) {
-    var ast = u('root', [
-      u('node', [
-        u('leaf', 1)
-      ]),
-      u('leaf', 2)
-    ]);
-    var children = ast.children;
-    var innerNode = ast.children[0];
-    var grandChildren = ast.children[0].children;
-
-    var newAst = remove(ast, { cascade: false }, function (node) {
-      return node === ast.children[0].children[0] || node === ast.children[1];
-    });
-
-    t.equal(newAst, ast);
-    t.deepEqual(ast, u('root', [
-      u('node', [])
-    ]));
-    t.equal(ast.children, children);
-    t.equal(ast.children[0], innerNode);
-    t.equal(ast.children[0].children, grandChildren);
-    t.end();
-  });
-});
-
-test('example from README', function (t) {
-  var ast = u('root', [
-    u('leaf', 1),
-    u('node', [
-      u('leaf', 2),
-      u('node', [
-        u('leaf', 3),
-        u('other', 4)
-      ]),
-      u('node', [
-        u('leaf', 5),
-      ])
-    ]),
-    u('leaf', 6)
-  ]);
+    u('leaf', '6')
+  ])
 
   t.deepEqual(
-    remove(ast, 'leaf'),
-    u('root', [
-      u('node', [
-        u('node', [
-          u('other', 4)
-        ])
-      ])
-    ])
-  );
+    remove(tree, 'leaf'),
+    u('root', [u('node', [u('node', [u('other', '4')])])])
+  )
 
-  t.end();
-});
+  t.end()
+})

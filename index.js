@@ -1,44 +1,62 @@
-'use strict';
+'use strict'
 
-var is = require('unist-util-is');
+var is = require('unist-util-is')
 
+module.exports = remove
 
-module.exports = function (ast, opts, predicate) {
-  if (arguments.length == 2) {
-    predicate = opts;
-    opts = {};
+function remove(ast, opts, test) {
+  var cascade
+
+  if (!test) {
+    test = opts
+    opts = {}
   }
 
-  opts.cascade = opts.cascade || opts.cascade === undefined;
+  cascade = opts.cascade
+  cascade = cascade === null || cascade === undefined ? true : cascade
+
+  return preorder(ast, null, null)
 
   // Check and remove nodes recursively in preorder.
   // For each composite node, modify its children array in-place.
-  return (function preorder (node, nodeIndex, parent) {
-    if (is(predicate, node, nodeIndex, parent)) {
-      return null;
+  function preorder(node, nodeIndex, parent) {
+    var children
+    var length
+    var index
+    var position
+    var child
+
+    if (is(test, node, nodeIndex, parent)) {
+      return null
     }
-    if (!node.children || !node.children.length) {
-      return node;
+
+    children = node.children
+
+    if (!children || children.length === 0) {
+      return node
     }
 
     // Move all living children to the beginning of the children array.
+    position = 0
+    length = children.length
+    index = -1
 
-    var length = 0;
-
-    for (var index = 0; index < node.children.length; ++index) {
-      var child = preorder(node.children[index], index, node);
+    while (++index < length) {
+      child = preorder(children[index], index, node)
 
       if (child) {
-        node.children[length++] = child;
+        children[position++] = child
       }
     }
 
-    if (!length && opts.cascade) {
-      // Cascade delete.
-      return null;
+    // Cascade delete.
+    if (cascade && position === 0) {
+      return null
     }
 
-    node.children.length = length;
-    return node;
-  }(ast, null, null));
-};
+    // Drop other nodes.
+    children.length = position
+
+    return node
+  }
+}

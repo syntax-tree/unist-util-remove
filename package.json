@@ -30,15 +30,34 @@
     "unist-util-is": "^2.0.0"
   },
   "devDependencies": {
+    "prettier": "^1.13.3",
     "remark-cli": "^5.0.0",
     "remark-preset-wooorm": "^4.0.0",
     "tape": "^4.4.0",
-    "unist-builder": "^1.0.0"
+    "unist-builder": "^1.0.0",
+    "xo": "^0.21.1"
   },
   "scripts": {
-    "format": "remark . -qfo",
-    "test": "tape test/*.js",
-    "cov": "nyc --reporter lcov tape test/*.js"
+    "format": "remark . -qfo && prettier --write '**/*.js' && xo --fix",
+    "test": "node test",
+    "cov": "nyc --reporter lcov tape test.js"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
+  },
+  "xo": {
+    "prettier": true,
+    "esnext": false,
+    "rules": {
+      "guard-for-in": "off",
+      "no-var": "off",
+      "prefer-arrow-callback": "off"
+    }
   },
   "remarkConfig": {
     "plugins": [
