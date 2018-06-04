@@ -30,11 +30,19 @@
     "unist-util-is": "^2.0.0"
   },
   "devDependencies": {
+    "remark-cli": "^5.0.0",
+    "remark-preset-wooorm": "^4.0.0",
     "tape": "^4.4.0",
     "unist-builder": "^1.0.0"
   },
   "scripts": {
+    "format": "remark . -qfo",
     "test": "tape test/*.js",
     "cov": "nyc --reporter lcov tape test/*.js"
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-wooorm"
+    ]
   }
 }

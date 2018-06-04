@@ -1,20 +1,14 @@
-[![npm](https://nodei.co/npm/unist-util-remove.png)](https://npmjs.com/package/unist-util-remove)
+# unist-util-remove [![Build Status][build-badge]][build-page] [![Coverage Status][coverage-badge]][coverage-page]
 
-# unist-util-remove
+Modify the given [unist][] tree to remove all nodes that pass the given test.
 
-[![Build Status][travis-badge]][travis] [![Dependency Status][david-badge]][david]
+## Install
 
-Remove one or more nodes from [Unist] tree, mutating it.
+```sh
+npm install unist-util-remove
+```
 
-[unist]: https://github.com/wooorm/unist
-[is]: https://github.com/syntax-tree/unist-util-is#api
-
-[travis]: https://travis-ci.org/eush77/unist-util-remove
-[travis-badge]: https://travis-ci.org/eush77/unist-util-remove.svg?branch=master
-[david]: https://david-dm.org/eush77/unist-util-remove
-[david-badge]: https://david-dm.org/eush77/unist-util-remove.png
-
-## Example
+## Usage
 
 ```js
 var u = require('unist-builder');
@@ -45,39 +39,59 @@ remove(ast, 'leaf')
 //         └─ other: "4"
 ```
 
-If the root node gets removed, the entire tree is destroyed and `remove` returns `null`. That's the only case in which `remove` doesn't return the original root node.
-
-```js
-remove(ast, ast)
-//=> null
-```
-
 ## API
 
-### `remove(ast, [opts], predicate)`
+### `remove(tree, [opts], test)`
 
-- `ast` — [Unist] tree.
-- `predicate` — any `test` as given to [`unist-util-is`][is].
+Mutate `tree` to remove all nodes that pass `test`.
+The tree is filtered in [preorder][].
 
-Iterates over `ast` in preorder traversal and removes all nodes matching `predicate` from `ast`. Returns a modified [Unist] tree.
+###### Parameters
 
-> Note: `unist-util-is` used to remove a node when given as `test`.
-> This no longer works. To migrate, pass a function as a predicate, like so:
-> `remove(ast, function (node) { return node === predicate; })`.
+*   `tree` ([`Node?`][node])
+    — Tree to filter
+*   `opts.cascade` (`boolean`, default: `true`)
+    — Whether to drop parent nodes if they had children, but all their
+    children were filtered out
+*   `test`
+    — See [`unist-util-is`][is] for details
 
-##### `opts.cascade`
+###### Returns
 
-Type: `Boolean`<br>
-Default: `true`
+The given `tree` ([`Node?`][node]) with nodes for which `test` returned `true`
+removed.  `null` is returned if `tree` itself didn’t pass the test, or is
+cascaded away.
 
-If `true`, removing of the last child triggers removal of its parent node.
+## Contribute
 
-## Install
+See [`contributing.md` in `syntax-tree/unist`][contributing] for ways to get
+started.
 
-```
-npm install unist-util-remove
-```
+This organisation has a [Code of Conduct][coc].  By interacting with this
+repository, organisation, or community you agree to abide by its terms.
 
 ## License
 
-MIT
+[MIT][] © Eugene Sharygin
+
+[mit]: LICENSE
+
+[unist]: https://github.com/syntax-tree/unist
+
+[node]: https://github.com/syntax-tree/unist#node
+
+[is]: https://github.com/syntax-tree/unist-util-is
+
+[preorder]: https://en.wikipedia.org/wiki/Tree_traversal
+
+[build-page]: https://travis-ci.org/syntax-tree/unist-util-remove
+
+[build-badge]: https://travis-ci.org/syntax-tree/unist-util-remove.svg?branch=master
+
+[coverage-page]: https://codecov.io/github/syntax-tree/unist-util-remove?branch=master
+
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-remove.svg?branch=master
+
+[contributing]: https://github.com/syntax-tree/unist/blob/master/contributing.md
+
+[coc]: https://github.com/syntax-tree/unist/blob/master/code-of-conduct.md
