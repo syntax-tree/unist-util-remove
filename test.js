@@ -2,11 +2,11 @@
 
 var remove = require('..');
 
-var it = require('tape'),
+var test = require('tape'),
     u = require('unist-builder');
 
 
-it('should compare nodes by partial properties', function (t) {
+test('should compare nodes by partial properties', function (t) {
   var ast = u('node', [
     u('node', 'foo'),
     u('node', 'bar')
@@ -24,7 +24,7 @@ it('should compare nodes by partial properties', function (t) {
 });
 
 
-it('should remove nodes with children', function (t) {
+test('should remove nodes with children', function (t) {
   var ast = u('root', [
     u('node', [
       u('leaf', 1)
@@ -46,7 +46,7 @@ it('should remove nodes with children', function (t) {
 });
 
 
-it('should return `null` if root node is removed', function (t) {
+test('should return `null` if root node is removed', function (t) {
   var ast = u('root', [
     u('node', [
       u('leaf', 1)
@@ -59,7 +59,7 @@ it('should return `null` if root node is removed', function (t) {
 });
 
 
-it('should cascade remove parent nodes', function (t) {
+test('should cascade remove parent nodes', function (t) {
   t.test(function (t) {
     var ast = u('root', [
       u('node', [
@@ -97,7 +97,7 @@ it('should cascade remove parent nodes', function (t) {
 });
 
 
-it('should not cascade-remove nodes that were empty initially', function (t) {
+test('should not cascade-remove nodes that were empty initially', function (t) {
   var ast = u('node', [
     u('node', []),
     u('node', [
@@ -114,7 +114,7 @@ it('should not cascade-remove nodes that were empty initially', function (t) {
 });
 
 
-it('should support type tests and predicate functions', function (t) {
+test('should support type tests and predicate functions', function (t) {
   t.test(function (t) {
     var ast = u('node', [
       u('node', [
@@ -168,4 +168,77 @@ it('should support type tests and predicate functions', function (t) {
     ]));
     t.end();
   });
+});
+
+test('opts.cascade', function (t) {
+  t.test('opts.cascade = true', function (t) {
+    var ast = u('root', [
+      u('node', [
+        u('leaf', 1)
+      ]),
+      u('leaf', 2)
+    ]);
+
+    var newAst = remove(ast, { cascade: true }, function (node) {
+      return node === ast.children[0].children[0] || node === ast.children[1];
+    });
+
+    t.equal(newAst, null);
+    t.end();
+  });
+
+  t.test('opts.cascade = false', function (t) {
+    var ast = u('root', [
+      u('node', [
+        u('leaf', 1)
+      ]),
+      u('leaf', 2)
+    ]);
+    var children = ast.children;
+    var innerNode = ast.children[0];
+    var grandChildren = ast.children[0].children;
+
+    var newAst = remove(ast, { cascade: false }, function (node) {
+      return node === ast.children[0].children[0] || node === ast.children[1];
+    });
+
+    t.equal(newAst, ast);
+    t.deepEqual(ast, u('root', [
+      u('node', [])
+    ]));
+    t.equal(ast.children, children);
+    t.equal(ast.children[0], innerNode);
+    t.equal(ast.children[0].children, grandChildren);
+    t.end();
+  });
+});
+
+test('example from README', function (t) {
+  var ast = u('root', [
+    u('leaf', 1),
+    u('node', [
+      u('leaf', 2),
+      u('node', [
+        u('leaf', 3),
+        u('other', 4)
+      ]),
+      u('node', [
+        u('leaf', 5),
+      ])
+    ]),
+    u('leaf', 6)
+  ]);
+
+  t.deepEqual(
+    remove(ast, 'leaf'),
+    u('root', [
+      u('node', [
+        u('node', [
+          u('other', 4)
+        ])
+      ])
+    ])
+  );
+
+  t.end();
 });
