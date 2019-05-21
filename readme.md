@@ -83,7 +83,7 @@ repository, organisation, or community you agree to abide by its terms.
 
 [MIT][] © Eugene Sharygin
 
-[mit]: LICENSE
+[mit]: license
 
 [unist]: https://github.com/syntax-tree/unist
 
