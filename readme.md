@@ -38,7 +38,7 @@ remove(tree, 'leaf')
 console.dir(tree, {depth: null})
 ```
 
-Yields: (note the parent of `5` is also removed, due to `opts.cascade`)
+Yields: (note the parent of `5` is also removed, due to `options.cascade`)
 
 ```js
 {
