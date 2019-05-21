@@ -1,8 +1,16 @@
-# unist-util-remove [![Build Status][build-badge]][build-page] [![Coverage Status][coverage-badge]][coverage-page]
+# unist-util-remove
 
-Modify the given [unist][] tree to remove all nodes that pass the given test.
+[![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
+[![Downloads][downloads-badge]][downloads]
+[![Size][size-badge]][size]
+
+[**unist**][unist] utility to modify the given tree by removing all nodes that
+pass the given test.
 
 ## Install
+
+[npm][]:
 
 ```sh
 npm install unist-util-remove
@@ -27,7 +35,7 @@ var tree = u('root', [
 // Remove all nodes of type `leaf`.
 remove(tree, 'leaf')
 
-console.log(tree)
+console.dir(tree, {depth: null})
 ```
 
 Yields: (note the parent of `5` is also removed, due to `opts.cascade`)
@@ -35,72 +43,107 @@ Yields: (note the parent of `5` is also removed, due to `opts.cascade`)
 ```js
 {
   type: 'root',
-  children: [{
-    type: 'node',
-    children: [{
+  children: [
+    {
       type: 'node',
-      children: [{
-        type: 'other',
-        value: '4'
-      }]
-    }]
-  }]
+      children: [
+        { type: 'node', children: [ { type: 'other', value: '4' } ] }
+      ]
+    }
+  ]
 }
 ```
 
 ## API
 
-### `remove(tree, [opts], test)`
+### `remove(tree[, options][, test])`
 
-Mutate `tree` by removing all nodes that pass `test`.
-The tree is filtered in [preorder][].
+Mutate the given [tree][] by removing all nodes that pass `test`.
+The tree is walked in [preorder][] (NLR), visiting the node itself, then its
+[head][], etc.
 
 ###### Parameters
 
 *   `tree` ([`Node?`][node])
-    — Tree to filter
-*   `opts.cascade` (`boolean`, default: `true`)
-    — Whether to drop parent nodes if they had children, but all their
-    children were filtered out
-*   `test`
-    — See [`unist-util-is`][is] for details
+    — [Tree][] to filter
+*   `options.cascade` (`boolean`, default: `true`)
+    — Whether to drop parent nodes if they had children, but all their children
+    were filtered out
+*   `test` ([`Test`][is], optional) — [`is`][is]-compatible test (such as a
+    [type][])
 
 ###### Returns
 
-The given `tree` ([`Node?`][node]) with nodes for which `test` returned `true`
-removed.  `null` is returned if `tree` itself didn’t pass the test, or is
-cascaded away.
+[`Node?`][node] — The given `tree` with nodes for which `test` passed removed.
+`null` is returned if `tree` itself didn’t pass the test, or is cascaded away.
+
+## Related
+
+*   [`unist-util-filter`](https://github.com/syntax-tree/unist-util-filter)
+    — Create a new tree with all nodes that pass the given function
+*   [`unist-util-flatmap`](https://gitlab.com/staltz/unist-util-flatmap)
+    — Create a new tree by expanding a node into many
+*   [`unist-util-map`](https://github.com/syntax-tree/unist-util-map)
+    — Create a new tree by mapping nodes
+*   [`unist-util-select`](https://github.com/syntax-tree/unist-util-select)
+    — Select nodes with CSS-like selectors
+*   [`unist-util-visit`](https://github.com/syntax-tree/unist-util-visit)
+    — Recursively walk over nodes
+*   [`unist-builder`](https://github.com/syntax-tree/unist-builder)
+    — Creating trees
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/unist`][contributing] for ways to get
+See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
 started.
+See [`support.md`][support] for ways to get help.
 
-This organisation has a [Code of Conduct][coc].  By interacting with this
-repository, organisation, or community you agree to abide by its terms.
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
-[MIT][] © Eugene Sharygin
+[MIT][license] © Eugene Sharygin
 
-[mit]: license
+<!-- Definitions -->
+
+[build-badge]: https://img.shields.io/travis/syntax-tree/unist-util-filter.svg
+
+[build]: https://travis-ci.org/syntax-tree/unist-util-filter
+
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-filter.svg
+
+[coverage]: https://codecov.io/github/syntax-tree/unist-util-filter
+
+[downloads-badge]: https://img.shields.io/npm/dm/unist-util-filter.svg
+
+[downloads]: https://www.npmjs.com/package/unist-util-filter
+
+[size-badge]: https://img.shields.io/bundlephobia/minzip/unist-util-filter.svg
+
+[size]: https://bundlephobia.com/result?p=unist-util-filter
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[license]: license
 
 [unist]: https://github.com/syntax-tree/unist
 
 [node]: https://github.com/syntax-tree/unist#node
 
+[tree]: https://github.com/syntax-tree/unist#tree
+
+[preorder]: https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
+
+[head]: https://github.com/syntax-tree/unist#head
+
+[type]: https://github.com/syntax-tree/unist#type
+
 [is]: https://github.com/syntax-tree/unist-util-is
 
-[preorder]: https://en.wikipedia.org/wiki/Tree_traversal
+[contributing]: https://github.com/syntax-tree/.github/blob/master/contributing.md
 
-[build-page]: https://travis-ci.org/syntax-tree/unist-util-remove
+[support]: https://github.com/syntax-tree/.github/blob/master/support.md
 
-[build-badge]: https://travis-ci.org/syntax-tree/unist-util-remove.svg?branch=master
-
-[coverage-page]: https://codecov.io/github/syntax-tree/unist-util-remove?branch=master
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-remove.svg?branch=master
-
-[contributing]: https://github.com/syntax-tree/unist/blob/master/contributing.md
-
-[coc]: https://github.com/syntax-tree/unist/blob/master/code-of-conduct.md
+[coc]: https://github.com/syntax-tree/.github/blob/master/code-of-conduct.md
