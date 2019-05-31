@@ -27,7 +27,7 @@
     "index.js"
   ],
   "dependencies": {
-    "unist-util-is": "^2.0.0"
+    "unist-util-is": "^3.0.0"
   },
   "devDependencies": {
     "nyc": "^14.0.0",

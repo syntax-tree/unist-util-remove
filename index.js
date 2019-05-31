@@ -1,10 +1,11 @@
 'use strict'
 
-var is = require('unist-util-is')
+var convert = require('unist-util-is/convert')
 
 module.exports = remove
 
 function remove(ast, opts, test) {
+  var is
   var cascade
 
   if (!test) {
@@ -14,6 +15,7 @@ function remove(ast, opts, test) {
 
   cascade = opts.cascade
   cascade = cascade === null || cascade === undefined ? true : cascade
+  is = convert(test)
 
   return preorder(ast, null, null)
 
@@ -26,7 +28,7 @@ function remove(ast, opts, test) {
     var position
     var child
 
-    if (is(test, node, nodeIndex, parent)) {
+    if (is(node, nodeIndex, parent)) {
       return null
     }
 
