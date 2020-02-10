@@ -19,7 +19,7 @@ pass the given test.
 npm install unist-util-remove
 ```
 
-## Usage
+## Use
 
 ```js
 var u = require('unist-builder')
@@ -133,7 +133,7 @@ abide by its terms.
 
 [collective]: https://opencollective.com/unified
 
-[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+[chat-badge]: https://img.shields.io/badge/chat-spectrum-7b16ff.svg
 
 [chat]: https://spectrum.chat/unified/syntax-tree
 
@@ -147,7 +147,7 @@ abide by its terms.
 
 [tree]: https://github.com/syntax-tree/unist#tree
 
-[preorder]: https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
+[preorder]: https://github.com/syntax-tree/unist#preorder
 
 [head]: https://github.com/syntax-tree/unist#head
 

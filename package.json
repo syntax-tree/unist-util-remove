@@ -1,20 +1,22 @@
 {
   "name": "unist-util-remove",
   "version": "1.0.3",
-  "description": "Remove nodes from Unist tree",
+  "description": "unist utility to remove nodes from a tree",
   "license": "MIT",
   "keywords": [
+    "unist",
+    "unist-util",
+    "util",
+    "utility",
     "ast",
+    "tree",
+    "node",
     "cascade",
     "delete",
     "mutable",
-    "node",
     "remove",
     "squeeze",
-    "strip",
-    "tree",
-    "unist",
-    "util"
+    "strip"
   ],
   "repository": "syntax-tree/unist-util-remove",
   "bugs": "https://github.com/syntax-tree/unist-util-remove/issues",
