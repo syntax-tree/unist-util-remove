@@ -4,16 +4,16 @@ var convert = require('unist-util-is/convert')
 
 module.exports = remove
 
-function remove(ast, opts, test) {
+function remove(ast, options, test) {
   var is
   var cascade
 
   if (!test) {
-    test = opts
-    opts = {}
+    test = options
+    options = {}
   }
 
-  cascade = opts.cascade
+  cascade = options.cascade
   cascade = cascade === null || cascade === undefined ? true : cascade
   is = convert(test)
 

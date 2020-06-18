@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var remove = require('.')
 
-test('should compare nodes by partial properties', function(t) {
+test('should compare nodes by partial properties', function (t) {
   var tree = u('node', [u('leaf', '1'), u('leaf', '2')])
   var children = tree.children
   var first = tree.children[0]
@@ -19,7 +19,7 @@ test('should compare nodes by partial properties', function(t) {
   t.end()
 })
 
-test('should remove nodes with children', function(t) {
+test('should remove nodes with children', function (t) {
   var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
   var children = tree.children
   var first = tree.children[0]
@@ -39,7 +39,7 @@ test('should remove nodes with children', function(t) {
   }
 })
 
-test('should return `null` if root node is removed', function(t) {
+test('should return `null` if root node is removed', function (t) {
   var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
 
   t.equal(remove(tree, 'root'), null)
@@ -47,7 +47,7 @@ test('should return `null` if root node is removed', function(t) {
   t.end()
 })
 
-test('should cascade-remove parent nodes', function(t) {
+test('should cascade-remove parent nodes', function (t) {
   var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
   var children = tree.children
   var first = children[0].children[0]
@@ -67,7 +67,7 @@ test('should cascade-remove parent nodes', function(t) {
   }
 })
 
-test('should cascade-remove root nodes', function(t) {
+test('should cascade-remove root nodes', function (t) {
   var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
 
   var next = remove(tree, 'leaf')
@@ -77,7 +77,7 @@ test('should cascade-remove root nodes', function(t) {
   t.end()
 })
 
-test('should not cascade-remove nodes that were empty initially', function(t) {
+test('should not cascade-remove nodes that were empty initially', function (t) {
   var tree = u('node', [u('node', []), u('node', [u('leaf')])])
 
   remove(tree, 'leaf')
@@ -87,7 +87,7 @@ test('should not cascade-remove nodes that were empty initially', function(t) {
   t.end()
 })
 
-test('should support type tests', function(t) {
+test('should support type tests', function (t) {
   var tree = u('node', [u('node', [u('leaf', '1')]), u('leaf', '2')])
 
   remove(tree, {cascade: false}, 'leaf')
@@ -97,7 +97,7 @@ test('should support type tests', function(t) {
   t.end()
 })
 
-test('should support function tests', function(t) {
+test('should support function tests', function (t) {
   var tree = u('node', [u('node', [u('leaf', '1')]), u('leaf', '2')])
 
   remove(tree, {cascade: false}, test)
@@ -111,7 +111,7 @@ test('should support function tests', function(t) {
   }
 })
 
-test('opts.cascade = true', function(t) {
+test('opts.cascade = true', function (t) {
   var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
 
   var next = remove(tree, {cascade: true}, 'leaf')
@@ -121,7 +121,7 @@ test('opts.cascade = true', function(t) {
   t.end()
 })
 
-test('opts.cascade = false', function(t) {
+test('opts.cascade = false', function (t) {
   var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
   var siblings = tree.children
   var node = siblings[0]
@@ -138,7 +138,7 @@ test('opts.cascade = false', function(t) {
   t.end()
 })
 
-test('example from readme', function(t) {
+test('example from readme', function (t) {
   var tree = u('root', [
     u('leaf', '1'),
     u('node', [
