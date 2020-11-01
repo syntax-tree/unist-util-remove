@@ -1,6 +1,6 @@
 {
   "name": "unist-util-remove",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "unist utility to remove nodes from a tree",
   "license": "MIT",
   "keywords": [
