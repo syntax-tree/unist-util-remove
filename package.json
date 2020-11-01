@@ -66,7 +66,18 @@
   },
   "xo": {
     "prettier": true,
-    "esnext": false
+    "esnext": false,
+    "rules": {
+      "eqeqeq": [
+        "error",
+        "always",
+        {
+          "null": "ignore"
+        }
+      ],
+      "no-eq-null": "off",
+      "unicorn/explicit-length-check": "off"
+    }
   },
   "remarkConfig": {
     "plugins": [
