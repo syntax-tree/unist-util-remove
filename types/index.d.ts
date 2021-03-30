@@ -5,6 +5,9 @@ import { Test } from 'unist-util-is';
 
 declare namespace remove {
   interface RemoveOptions {
+    /**
+     * Whether to drop parent nodes if they had children, but all their children were filtered out test
+     */
     cascade?: boolean;
   }
 }
@@ -17,6 +20,11 @@ declare namespace remove {
  * @param options   Whether to drop parent nodes if they had children, but all their children were filtered out
  * @param test      is-compatible test (such as a type)
  */
+declare function remove(
+  tree: Node,
+  test?: Test<Node>
+): Node;
+
 declare function remove(
   tree: Node,
   options: remove.RemoveOptions = {cascade: true},

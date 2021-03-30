@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "target": "es2017",
+      "lib": ["es6"],
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "esModuleInterop": false,
+      "strict": true,
+      "strictPropertyInitialization": false,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "sourceMap": true,
+      "skipLibCheck": true
+    },
+    "include": [
+      "./**/*.ts",
+      "./node_modules/@types"
+    ],
+    "exclude": [
+      "node_modules",
+      "coverage"
+    ]
+  }
+  
