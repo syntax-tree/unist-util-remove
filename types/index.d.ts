@@ -19,6 +19,10 @@ declare namespace remove {
  */
 declare function remove(
   tree: Node,
+  test?: Test<Node>
+): Node;
+declare function remove(
+  tree: Node,
   options: remove.RemoveOptions = {cascade: true},
   test?: Test<Node>
 ): Node;
