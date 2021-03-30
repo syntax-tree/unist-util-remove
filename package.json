@@ -35,7 +35,7 @@
     ],
     "types": "types/index.d.ts",
     "dependencies": {
-        "dtslint": "^4.0.7",
+        "dtslint": "^4.0.0",
         "unist-util-is": "^4.0.0"
     },
     "devDependencies": {
