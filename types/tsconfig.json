@@ -1,25 +1,14 @@
 {
-    "compilerOptions": {
-      "target": "es2017",
-      "lib": ["es6"],
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "esModuleInterop": false,
-      "strict": true,
-      "strictPropertyInitialization": false,
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true,
-      "sourceMap": true,
-      "skipLibCheck": true
-    },
-    "include": [
-      "./**/*.ts",
-      "./node_modules/@types"
-    ],
-    "exclude": [
-      "node_modules",
-      "coverage"
-    ]
+  "compilerOptions": {
+    "module": "es2015",
+    "lib": ["es2015"],
+    "moduleResolution": "node",
+    "strict": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "uninst-util-remove": ["."]
+    }
   }
-  
+}
+
