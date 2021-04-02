@@ -3,7 +3,7 @@
 import {Node} from 'unist'
 import {Test} from 'unist-util-is'
 
-declare namespace remove {
+export namespace remove {
   interface RemoveOptions {
     /**
      * Whether to drop parent nodes if they had children, but all their children were filtered out test
