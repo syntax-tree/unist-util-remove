@@ -1,4 +1,4 @@
-import {remove} from 'uninst-util-remove';
+import * as remove from 'uninst-util-remove';
 import * as u from 'unist-builder';
 
 const tree = u('root', [
