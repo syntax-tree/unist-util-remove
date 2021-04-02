@@ -3,13 +3,11 @@
 import {Node} from 'unist'
 import {Test} from 'unist-util-is'
 
-export namespace remove {
-  interface RemoveOptions {
-    /**
-     * Whether to drop parent nodes if they had children, but all their children were filtered out test
-     */
-    cascade?: boolean
-  }
+export interface RemoveOptions {
+  /**
+   * Whether to drop parent nodes if they had children, but all their children were filtered out test
+   */
+  cascade?: boolean
 }
 
 /**
@@ -30,6 +28,6 @@ export function remove<T extends Node>(tree: T, test?: Test<Node>): T | null
  */
 export function remove<T extends Node>(
   tree: T,
-  options?: remove.RemoveOptions,
+  options?: RemoveOptions,
   test?: Test<Node>
 ): T | null
