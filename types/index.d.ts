@@ -6,7 +6,7 @@ import {Test} from 'unist-util-is'
 // NOTE: namespace is needed to use `export = remove`
 declare namespace remove {}
 
-declare interface RemoveOptions {
+interface RemoveOptions {
   /**
    * Whether to drop parent nodes if they had children, but all their children were filtered out test
    */
