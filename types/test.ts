@@ -1,7 +1,7 @@
 import {remove} from 'uninst-util-remove';
 import * as u from 'unist-builder';
 
-let tree = u('root', [
+const tree = u('root', [
   u('leaf', '1'),
   u('node', [
     u('leaf', '2'),
