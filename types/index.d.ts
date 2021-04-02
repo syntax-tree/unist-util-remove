@@ -31,7 +31,7 @@ declare function remove<T extends Node>(tree: T, test?: Test<Node>): T | null
  */
 declare function remove<T extends Node>(
   tree: T,
-  options?: RemoveOptions,
+  options?: remove.RemoveOptions,
   test?: Test<Node>
 ): T | null
 
