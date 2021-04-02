@@ -19,7 +19,7 @@ declare namespace remove {
  * @param tree      Tree to filter
  * @param test      is-compatible test (such as a type)
  */
-export function remove(tree: Node, test?: Test<Node>): Node
+export function remove<T extends Node>(tree: T, test?: Test<Node>): T | null
 /**
  *
  * Mutate the given tree by removing all nodes that pass test. The tree is walked in preorder (NLR), visiting the node itself, then its head, etc.
