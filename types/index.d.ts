@@ -28,8 +28,8 @@ export function remove(tree: Node, test?: Test<Node>): Node
  * @param options   Whether to drop parent nodes if they had children, but all their children were filtered out. Default is {cascade: true}
  * @param test      is-compatible test (such as a type)
  */
-export function remove(
-  tree: Node,
+export function remove<T extends Node>(
+  tree: T,
   options?: remove.RemoveOptions,
   test?: Test<Node>
-): Node
+): T | null
