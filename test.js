@@ -1,3 +1,12 @@
+/**
+ * @typedef {import('unist').Node} Node
+ * @typedef {import('unist').Parent} Parent
+ *
+ * @typedef {import('unist-util-is').Type} Type
+ * @typedef {import('unist-util-is').Props} Props
+ * @typedef {import('unist-util-is').TestFunctionAnything} TestFunctionAnything
+ */
+
 import test from 'tape'
 import {u} from 'unist-builder'
 import {remove} from './index.js'
@@ -32,6 +41,10 @@ test('should remove nodes with children', function (t) {
 
   t.end()
 
+  /**
+   * @param {Node} node
+   * @returns {boolean}
+   */
   function test(node) {
     return node === first
   }
@@ -48,6 +61,7 @@ test('should return `null` if root node is removed', function (t) {
 test('should cascade-remove parent nodes', function (t) {
   var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
   var children = tree.children
+  // @ts-ignore it exists!
   var first = children[0].children[0]
   var last = children[1]
 
@@ -60,6 +74,10 @@ test('should cascade-remove parent nodes', function (t) {
 
   t.end()
 
+  /**
+   * @param {Node} node
+   * @returns {boolean}
+   */
   function test(node) {
     return node === first
   }
@@ -104,6 +122,10 @@ test('should support function tests', function (t) {
 
   t.end()
 
+  /**
+   * @param {Node} node
+   * @returns {boolean}
+   */
   function test(node) {
     return node.value === '1'
   }
@@ -123,6 +145,7 @@ test('opts.cascade = false', function (t) {
   var tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
   var siblings = tree.children
   var node = siblings[0]
+  // @ts-ignore it exists!
   var children = node.children
 
   var next = remove(tree, {cascade: false}, 'leaf')
@@ -131,6 +154,7 @@ test('opts.cascade = false', function (t) {
   t.deepEqual(tree, u('root', [u('node', [])]))
   t.equal(tree.children, siblings)
   t.equal(tree.children[0], node)
+  // @ts-ignore it exists!
   t.equal(tree.children[0].children, children)
 
   t.end()

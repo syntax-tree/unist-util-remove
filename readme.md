@@ -63,7 +63,7 @@ Yields: (note the parent of `5` is also removed, due to `options.cascade`)
 This package exports the following identifiers: `remove`.
 There is no default export.
 
-### `remove(tree[, options][, test])`
+### `remove(tree[, options], test)`
 
 Mutate the given [tree][] by removing all nodes that pass `test`.
 The tree is walked in [preorder][] (NLR), visiting the node itself, then its
@@ -76,8 +76,7 @@ The tree is walked in [preorder][] (NLR), visiting the node itself, then its
 *   `options.cascade` (`boolean`, default: `true`)
     — Whether to drop parent nodes if they had children, but all their children
     were filtered out
-*   `test` ([`Test`][is], optional) — [`is`][is]-compatible test (such as a
-    [type][])
+*   `test` ([`Test`][is]) — [`is`][is]-compatible test (such as a [type][])
 
 ###### Returns
 
