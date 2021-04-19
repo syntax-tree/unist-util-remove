@@ -1,12 +1,11 @@
-'use strict'
+import {convert} from 'unist-util-is'
 
-var convert = require('unist-util-is/convert')
-
-module.exports = remove
-
-function remove(tree, options, test) {
+export function remove(tree, options, test) {
   var is = convert(test || options)
-  var cascade = options.cascade == null ? true : options.cascade
+  var cascade =
+    options.cascade === undefined || options.cascade === null
+      ? true
+      : options.cascade
 
   return preorder(tree, null, null)
 
@@ -21,7 +20,7 @@ function remove(tree, options, test) {
       return null
     }
 
-    if (children && children.length) {
+    if (children && children.length > 0) {
       // Move all living children to the beginning of the children array.
       while (++childIndex < children.length) {
         if (preorder(children[childIndex], childIndex, node)) {

@@ -13,6 +13,9 @@ pass the given test.
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -22,8 +25,8 @@ npm install unist-util-remove
 ## Use
 
 ```js
-var u = require('unist-builder')
-var remove = require('unist-util-remove')
+import {u} from 'unist-builder'
+import {remove} from 'unist-util-remove'
 
 var tree = u('root', [
   u('leaf', '1'),
@@ -49,15 +52,16 @@ Yields: (note the parent of `5` is also removed, due to `options.cascade`)
   children: [
     {
       type: 'node',
-      children: [
-        { type: 'node', children: [ { type: 'other', value: '4' } ] }
-      ]
+      children: [{type: 'node', children: [{type: 'other', value: '4'}]}]
     }
   ]
 }
 ```
 
 ## API
+
+This package exports the following identifiers: `remove`.
+There is no default export.
 
 ### `remove(tree[, options][, test])`
 
