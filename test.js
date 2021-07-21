@@ -62,7 +62,7 @@ test('should return `null` if root node is removed', (t) => {
 test('should cascade-remove parent nodes', (t) => {
   const tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
   const children = tree.children
-  // @ts-ignore it exists!
+  // @ts-expect-error it exists!
   const first = children[0].children[0]
   const last = children[1]
 
@@ -117,19 +117,11 @@ test('should support type tests', (t) => {
 test('should support function tests', (t) => {
   const tree = u('node', [u('node', [u('leaf', '1')]), u('leaf', '2')])
 
-  remove(tree, {cascade: false}, test)
+  remove(tree, {cascade: false}, (node) => literal(node) && node.value === '1')
 
   t.deepEqual(tree, u('node', [u('node', []), u('leaf', '2')]))
 
   t.end()
-
-  /**
-   * @param {Literal} node
-   * @returns {boolean}
-   */
-  function test(node) {
-    return node.value === '1'
-  }
 })
 
 test('opts.cascade = true', (t) => {
@@ -146,7 +138,7 @@ test('opts.cascade = false', (t) => {
   const tree = u('root', [u('node', [u('leaf', '1')]), u('leaf', '2')])
   const siblings = tree.children
   const node = siblings[0]
-  // @ts-ignore it exists!
+  // @ts-expect-error it exists!
   const children = node.children
 
   const next = remove(tree, {cascade: false}, 'leaf')
@@ -155,7 +147,7 @@ test('opts.cascade = false', (t) => {
   t.deepEqual(tree, u('root', [u('node', [])]))
   t.equal(tree.children, siblings)
   t.equal(tree.children[0], node)
-  // @ts-ignore it exists!
+  // @ts-expect-error it exists!
   t.equal(tree.children[0].children, children)
 
   t.end()
@@ -179,3 +171,11 @@ test('example from readme', (t) => {
 
   t.end()
 })
+
+/**
+ * @param {Node} node
+ * @returns {node is Literal}
+ */
+function literal(node) {
+  return 'value' in node
+}

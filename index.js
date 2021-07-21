@@ -41,20 +41,20 @@ export const remove =
           ? true
           : options.cascade
 
-      return preorder(tree, null, null)
+      return preorder(tree)
 
       /**
        * Check and remove nodes recursively in preorder.
        * For each composite node, modify its children array in-place.
        *
        * @param {Node} node
-       * @param {number|null} index
-       * @param {Parent|null} parent
+       * @param {number|undefined} [index]
+       * @param {Parent|undefined} [parent]
        * @returns {Node|null}
        */
       function preorder(node, index, parent) {
         /** @type {Array.<Node>} */
-        // @ts-ignore looks like a parent.
+        // @ts-expect-error looks like a parent.
         const children = node.children || empty
         let childIndex = -1
         let position = 0
@@ -66,7 +66,7 @@ export const remove =
         if (children.length > 0) {
           // Move all living children to the beginning of the children array.
           while (++childIndex < children.length) {
-            // @ts-ignore looks like a parent.
+            // @ts-expect-error looks like a parent.
             if (preorder(children[childIndex], childIndex, node)) {
               children[position++] = children[childIndex]
             }
