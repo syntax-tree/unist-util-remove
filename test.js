@@ -1,5 +1,6 @@
 /**
  * @typedef {import('unist').Node} Node
+ * @typedef {import('unist').Literal<string>} Literal
  * @typedef {import('unist').Parent} Parent
  *
  * @typedef {import('unist-util-is').Type} Type
@@ -123,7 +124,7 @@ test('should support function tests', function (t) {
   t.end()
 
   /**
-   * @param {Node} node
+   * @param {Literal} node
    * @returns {boolean}
    */
   function test(node) {
