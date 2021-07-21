@@ -15,9 +15,9 @@
 import {convert} from 'unist-util-is'
 
 /** @type {Array.<Node>} */
-var empty = []
+const empty = []
 
-export var remove =
+export const remove =
   /**
    * @type {(
    *  (<T extends Node>(node: T, options: RemoveOptions, test: Type|Props|TestFunctionAnything|Array<Type|Props|TestFunctionAnything>) => T|null) &
@@ -35,8 +35,8 @@ export var remove =
      * @returns {Node|null}
      */
     function (tree, options, test) {
-      var is = convert(test || options)
-      var cascade =
+      const is = convert(test || options)
+      const cascade =
         options.cascade === undefined || options.cascade === null
           ? true
           : options.cascade
@@ -55,9 +55,9 @@ export var remove =
       function preorder(node, index, parent) {
         /** @type {Array.<Node>} */
         // @ts-ignore looks like a parent.
-        var children = node.children || empty
-        var childIndex = -1
-        var position = 0
+        const children = node.children || empty
+        let childIndex = -1
+        let position = 0
 
         if (is(node, index, parent)) {
           return null

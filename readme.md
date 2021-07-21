@@ -28,7 +28,7 @@ npm install unist-util-remove
 import {u} from 'unist-builder'
 import {remove} from 'unist-util-remove'
 
-var tree = u('root', [
+const tree = u('root', [
   u('leaf', '1'),
   u('node', [
     u('leaf', '2'),
