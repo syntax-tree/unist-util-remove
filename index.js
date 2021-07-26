@@ -4,7 +4,17 @@
  *
  * @typedef {import('unist-util-is').Type} Type
  * @typedef {import('unist-util-is').Props} Props
- * @typedef {import('unist-util-is').TestFunctionAnything} TestFunctionAnything
+ */
+
+/**
+ * Check if a node passes a test
+ *
+ * @template {Node} Tree Node type that is checked.
+ * @callback TestFunction
+ * @param {Tree} node
+ * @param {number|null|undefined} [index]
+ * @param {Parent|null|undefined} [parent]
+ * @returns {boolean|void}
  */
 
 /**
@@ -20,8 +30,8 @@ const empty = []
 export const remove =
   /**
    * @type {(
-   *  (<T extends Node>(node: T, options: RemoveOptions, test: Type|Props|TestFunctionAnything|Array<Type|Props|TestFunctionAnything>) => T|null) &
-   *  (<T extends Node>(node: T, test: Type|Props|TestFunctionAnything|Array<Type|Props|TestFunctionAnything>) => T|null)
+   *  (<Tree extends Node>(node: Tree, options: RemoveOptions, test: Type|Props|TestFunction<import('unist-util-visit-parents/complex-types').NodeInTree<Tree>>|Array<Type|Props|TestFunction<import('unist-util-visit-parents/complex-types').NodeInTree<Tree>>>) => Tree|null) &
+   *  (<Tree extends Node>(node: Tree, test: Type|Props|TestFunction<import('unist-util-visit-parents/complex-types').NodeInTree<Tree>>|Array<Type|Props|TestFunction<import('unist-util-visit-parents/complex-types').NodeInTree<Tree>>>) => Tree|null)
    * )}
    */
   (
@@ -31,7 +41,7 @@ export const remove =
      *
      * @param {Node} tree Tree to filter
      * @param {RemoveOptions} options Whether to drop parent nodes if they had children, but all their children were filtered out. Default is `{cascade: true}`
-     * @param {Type|Props|TestFunctionAnything|Array<Type|Props|TestFunctionAnything>} test is-compatible test (such as a type)
+     * @param {Type|Props|TestFunction<Node>|Array<Type|Props|TestFunction<Node>>} test is-compatible test (such as a type)
      * @returns {Node|null}
      */
     function (tree, options, test) {
