@@ -4,12 +4,22 @@
  *
  * @typedef {import('unist-util-is').Type} Type
  * @typedef {import('unist-util-is').Props} Props
+ *
+ * @typedef Options
+ * @property {boolean} [cascade=true]
+ *   Whether to drop parent nodes if they had children, but all their children
+ *   were filtered out.
+ *
+ * @typedef {Options} RemoveOptions
+ * @deprecated
+ *   Use `Options` instead.
  */
 
 /**
- * Check if a node passes a test
+ * Check if a node passes a test.
  *
- * @template {Node} Tree Node type that is checked.
+ * @template {Node} Tree
+ *   Node type that is checked for.
  * @callback TestFunction
  * @param {Tree} node
  * @param {number|null|undefined} [index]
@@ -17,16 +27,27 @@
  * @returns {boolean|void}
  */
 
-/**
- * @typedef RemoveOptions
- * @property {boolean} [cascade] Whether to drop parent nodes if they had children, but all their children were filtered out test
- */
-
 import {convert} from 'unist-util-is'
 
-/** @type {Array<Node>} */
+/** @type {Array<unknown>} */
 const empty = []
 
+/**
+ * Mutate the given `tree` by removing all nodes that pass `test`.
+ * The tree is walked in preorder (NLR), visiting the node itself, then its
+ * head, etc.
+ *
+ * @param tree
+ *   Tree to change.
+ * @param [options]
+ *   Configuration (optional).
+ * @param [test]
+ *   `unist-util-is`-compatible test.
+ * @returns
+ *   The given `tree` without nodes that pass `test`.
+ *   `null` is returned if `tree` itself didn’t pass the test or is cascaded
+ *   away.
+ */
 export const remove =
   /**
    * @type {(
@@ -36,18 +57,15 @@ export const remove =
    */
   (
     /**
-     * Mutate the given tree by removing all nodes that pass `test`.
-     * The tree is walked in preorder (NLR), visiting the node itself, then its head, etc.
-     *
-     * @param {Node} tree Tree to filter
-     * @param {RemoveOptions} options Whether to drop parent nodes if they had children, but all their children were filtered out. Default is `{cascade: true}`
-     * @param {Type|Props|TestFunction<Node>|Array<Type|Props|TestFunction<Node>>} test is-compatible test (such as a type)
+     * @param {Node} tree
+     * @param {RemoveOptions} [options]
+     * @param {Type|Props|TestFunction<Node>|Array<Type|Props|TestFunction<Node>>} [test]
      * @returns {Node|null}
      */
     function (tree, options, test) {
       const is = convert(test || options)
       const cascade =
-        options.cascade === undefined || options.cascade === null
+        !options || options.cascade === undefined || options.cascade === null
           ? true
           : options.cascade
 
