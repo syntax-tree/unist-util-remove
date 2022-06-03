@@ -93,7 +93,7 @@ Yields:
   children: [
     {
       type: 'parent',
-      children: [{type: 'node', children: [{type: 'other', value: '4'}]}]
+      children: [{type: 'parent', children: [{type: 'other', value: '4'}]}]
     }
   ]
 }
