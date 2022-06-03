@@ -18,13 +18,13 @@
  */
 
 /**
- * @typedef {Object} RemoveOptions
+ * @typedef RemoveOptions
  * @property {boolean} [cascade] Whether to drop parent nodes if they had children, but all their children were filtered out test
  */
 
 import {convert} from 'unist-util-is'
 
-/** @type {Array.<Node>} */
+/** @type {Array<Node>} */
 const empty = []
 
 export const remove =
@@ -63,7 +63,7 @@ export const remove =
        * @returns {Node|null}
        */
       function preorder(node, index, parent) {
-        /** @type {Array.<Node>} */
+        /** @type {Array<Node>} */
         // @ts-expect-error looks like a parent.
         const children = node.children || empty
         let childIndex = -1
