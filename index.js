@@ -2,8 +2,8 @@
  * @typedef {import('unist').Node} Node
  * @typedef {import('unist').Parent} Parent
  *
- * @typedef {import('unist-util-is').Type} Type
- * @typedef {import('unist-util-is').Props} Props
+ * @typedef {string} Type
+ * @typedef {Record<string, unknown>} Props
  *
  * @typedef Options
  * @property {boolean} [cascade=true]

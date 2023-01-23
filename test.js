@@ -3,8 +3,8 @@
  * @typedef {import('unist').Literal<string>} Literal
  * @typedef {import('unist').Parent} Parent
  *
- * @typedef {import('unist-util-is').Type} Type
- * @typedef {import('unist-util-is').Props} Props
+ * @typedef {string} Type
+ * @typedef {Record<string, unknown>} Props
  * @typedef {import('unist-util-is').TestFunctionAnything} TestFunctionAnything
  */
 
