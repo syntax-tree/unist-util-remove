@@ -131,7 +131,7 @@ The given `tree` without nodes that pass `test` ([`Node?`][node]).
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports no additional types (types for the test are in `unist-util-is`).
+It exports no additional types.
 
 ## Compatibility
 
