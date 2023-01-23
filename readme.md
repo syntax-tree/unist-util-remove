@@ -18,6 +18,7 @@
 *   [Use](#use)
 *   [API](#api)
     *   [`remove(tree[, options], test)`](#removetree-options-test)
+    *   [`Options`](#options)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
 *   [Related](#related)
@@ -43,7 +44,7 @@ To create trees, use [`unist-builder`][unist-builder].
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, 16.0+, 18.0+), install with [npm][]:
+In Node.js (version 14.14+ and 16.0+), install with [npm][]:
 
 ```sh
 npm install unist-util-remove
@@ -52,14 +53,14 @@ npm install unist-util-remove
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {remove} from "https://esm.sh/unist-util-remove@3"
+import {remove} from 'https://esm.sh/unist-util-remove@3'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {remove} from "https://esm.sh/unist-util-remove@3?bundle"
+  import {remove} from 'https://esm.sh/unist-util-remove@3?bundle'
 </script>
 ```
 
@@ -104,34 +105,45 @@ Yields:
 
 ## API
 
-This package exports the identifier `remove`.
+This package exports the identifier [`remove`][api-remove].
 There is no default export.
 
 ### `remove(tree[, options], test)`
 
-Mutate the given `tree` ([`Node`][node]) by removing all nodes that pass `test`
-(`Test` from [`unist-util-is`][test]).
-The tree is walked in [preorder][] (NLR), visiting the node itself, then its
+Change the given `tree` by removing all nodes that pass `test`.
+
+The tree is walked in *[preorder][]* (NLR), visiting the node itself, then its
 head, etc.
 
-##### `options`
+###### Parameters
 
-Configuration (optional).
+*   `tree` ([`Node`][node])
+    — tree to change
+*   `options` ([`Options`][api-options], optional)
+    — configuration
+*   `test` ([`Test`][test], optional)
+    — `unist-util-is` compatible test
 
-###### `options.cascade`
+###### Returns
 
-Whether to drop parent nodes if they had children, but all their children were
-filtered out (`boolean`, default: `true`).
+A changed given `tree`, without nodes that pass `test`.
 
-##### Returns
-
-The given `tree` without nodes that pass `test` ([`Node?`][node]).
 `null` is returned if `tree` itself didn’t pass the test or is cascaded away.
+
+### `Options`
+
+Configuration (TypeScript type).
+
+###### Fields
+
+*   `cascade` (`boolean`, default: `true`)
+    — whether to drop parent nodes if they had children, but all their children
+    were filtered out
 
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports no additional types.
+It exports the additional type [`Options`][api-options].
 
 ## Compatibility
 
@@ -228,3 +240,7 @@ abide by its terms.
 [unist-util-visit]: https://github.com/syntax-tree/unist-util-visit
 
 [unist-builder]: https://github.com/syntax-tree/unist-builder
+
+[api-remove]: #removetree-options-test
+
+[api-options]: #options
