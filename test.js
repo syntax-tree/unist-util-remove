@@ -7,6 +7,15 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {u} from 'unist-builder'
 import {remove} from './index.js'
+import * as mod from './index.js'
+
+test('core', () => {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['remove'],
+    'should expose the public api'
+  )
+})
 
 test('should compare nodes by partial properties', () => {
   const tree = u('node', [u('leaf', '1'), u('leaf', '2')])
