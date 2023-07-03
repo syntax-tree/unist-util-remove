@@ -44,7 +44,7 @@ To create trees, use [`unist-builder`][unist-builder].
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 14.14+ and 16.0+), install with [npm][]:
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install unist-util-remove
@@ -148,10 +148,13 @@ It exports the additional type [`Options`][api-options].
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
+
+When we cut a new major release, we drop support for unmaintained versions of
+Node.
+This means we try to keep the current release line, `unist-util-remove@^3`,
+compatible with Node.js 12.
 
 ## Related
 
@@ -184,21 +187,21 @@ abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://github.com/syntax-tree/unist-util-filter/workflows/main/badge.svg
+[build-badge]: https://github.com/syntax-tree/unist-util-remove/workflows/main/badge.svg
 
-[build]: https://github.com/syntax-tree/unist-util-filter/actions
+[build]: https://github.com/syntax-tree/unist-util-remove/actions
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-filter.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-remove.svg
 
-[coverage]: https://codecov.io/github/syntax-tree/unist-util-filter
+[coverage]: https://codecov.io/github/syntax-tree/unist-util-remove
 
-[downloads-badge]: https://img.shields.io/npm/dm/unist-util-filter.svg
+[downloads-badge]: https://img.shields.io/npm/dm/unist-util-remove.svg
 
-[downloads]: https://www.npmjs.com/package/unist-util-filter
+[downloads]: https://www.npmjs.com/package/unist-util-remove
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/unist-util-filter.svg
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=unist-util-remove
 
-[size]: https://bundlephobia.com/result?p=unist-util-filter
+[size]: https://bundlejs.com/?q=unist-util-remove
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
