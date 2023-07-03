@@ -83,7 +83,7 @@ const tree = u('root', [
 // Remove all nodes of type `leaf`.
 remove(tree, 'leaf')
 
-console.dir(tree, {depth: null})
+console.dir(tree, {depth: undefined})
 ```
 
 Yields:
@@ -128,7 +128,8 @@ head, etc.
 
 A changed given `tree`, without nodes that pass `test`.
 
-`null` is returned if `tree` itself didn’t pass the test or is cascaded away.
+`undefined` is returned if `tree` itself didn’t pass the test or is cascaded
+away.
 
 ### `Options`
 
