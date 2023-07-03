@@ -6,11 +6,13 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {u} from 'unist-builder'
-import {remove} from './index.js'
+import {remove} from 'unist-util-remove'
 
 test('remove', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('./index.js')).sort(), ['remove'])
+    assert.deepEqual(Object.keys(await import('unist-util-remove')).sort(), [
+      'remove'
+    ])
   })
 
   await t.test('should compare nodes by partial properties', function () {
