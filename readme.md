@@ -112,6 +112,7 @@ There is no default export.
 
 Change the given `tree` by removing all nodes that pass `test`.
 
+`tree` itself is never tested.
 The tree is walked in *[preorder][]* (NLR), visiting the node itself, then its
 head, etc.
 
@@ -126,10 +127,7 @@ head, etc.
 
 ###### Returns
 
-A changed given `tree`, without nodes that pass `test`.
-
-`undefined` is returned if `tree` itself didn’t pass the test or is cascaded
-away.
+Nothing (`undefined`).
 
 ### `Options`
 

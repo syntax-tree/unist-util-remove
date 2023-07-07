@@ -24,12 +24,9 @@ test('remove', async function (t) {
     /** @type {Emphasis} */
     const tree = u('emphasis', children)
 
-    const next = remove(tree, {value: '2'})
+    remove(tree, {value: '2'})
 
     assert.deepEqual(tree, u('emphasis', [leaf1]))
-    assert.equal(next, tree)
-    assert.equal(next.children, children)
-    assert.equal(next.children[0], leaf1)
   })
 
   await t.test('should remove parent nodes', function () {
@@ -40,12 +37,9 @@ test('remove', async function (t) {
     /** @type {Root} */
     const tree = u('root', children)
 
-    const next = remove(tree, test)
+    remove(tree, test)
 
     assert.deepEqual(tree, u('root', [leaf2]))
-    assert.equal(next, tree)
-    assert.equal(next.children, children)
-    assert.equal(next.children[0], leaf2)
 
     /**
      * @param {Node} node
@@ -56,23 +50,25 @@ test('remove', async function (t) {
     }
   })
 
-  await t.test(
-    'should return `undefined` if root node is removed',
-    function () {
-      /** @type {Root} */
-      const tree = u('root', [u('emphasis', [u('text', '1')]), u('text', '2')])
-      const next = remove(tree, 'root')
+  await t.test('should not check root nodes', function () {
+    /** @type {Root} */
+    const tree = u('root', [u('emphasis', [u('text', '1')]), u('text', '2')])
 
-      assert.equal(next, undefined)
-    }
-  )
+    remove(tree, 'root')
+
+    assert.deepEqual(
+      tree,
+      u('root', [u('emphasis', [u('text', '1')]), u('text', '2')])
+    )
+  })
 
   await t.test('should cascade (remove) root nodes', function () {
     /** @type {Root} */
     const tree = u('root', [u('emphasis', [u('text', '1')]), u('text', '2')])
-    const next = remove(tree, 'text')
 
-    assert.equal(next, undefined)
+    remove(tree, 'text')
+
+    assert.deepEqual(tree, u('root', []))
   })
 
   await t.test(
@@ -122,9 +118,8 @@ test('remove', async function (t) {
   await t.test('should support `cascade = true`', function () {
     /** @type {Root} */
     const tree = u('root', [u('emphasis', [u('text', '1')]), u('text', '2')])
-    const next = remove(tree, {cascade: true}, 'text')
-
-    assert.equal(next, undefined)
+    remove(tree, {cascade: true}, 'text')
+    assert.deepEqual(tree, u('root', []))
   })
 
   await t.test('should support `cascade = false`', function () {
@@ -136,13 +131,9 @@ test('remove', async function (t) {
     /** @type {Root} */
     const tree = u('root', siblings)
 
-    const next = remove(tree, {cascade: false}, 'text')
+    remove(tree, {cascade: false}, 'text')
 
     assert.deepEqual(tree, u('root', [u('emphasis', [])]))
-    assert.equal(next, tree)
-    assert.equal(next.children, siblings)
-    assert.equal(next.children[0], node)
-    assert.equal(next.children[0].children, nodeChildren)
   })
 
   await t.test('should support the example from readme', function () {
