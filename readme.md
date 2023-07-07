@@ -53,14 +53,14 @@ npm install unist-util-remove
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {remove} from 'https://esm.sh/unist-util-remove@3'
+import {remove} from 'https://esm.sh/unist-util-remove@4'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {remove} from 'https://esm.sh/unist-util-remove@3?bundle'
+  import {remove} from 'https://esm.sh/unist-util-remove@4?bundle'
 </script>
 ```
 
